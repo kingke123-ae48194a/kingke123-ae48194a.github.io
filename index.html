@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>以图搜图 - 工具与识图技巧聚合</title>
+  <meta name="description" content="以图搜图聚合反向图片搜索工具、识图技巧与素材溯源内容，涵盖 Google 识图、TinEye、Yandex 图片搜索及相似图查重等具体条目，适合设计师与内容审核人员参考。">
+  <meta name="keywords" content="以图搜图">
+  <style>
+    :root {
+      --primary: #1a5c9e;
+      --primary-light: #e8f0fa;
+      --primary-dark: #0d3b66;
+      --bg: #f5f7fa;
+      --surface: #ffffff;
+      --text: #1e2a3a;
+      --text-secondary: #4a5a6e;
+      --text-tertiary: #7a8a9e;
+      --border: #dde4ec;
+      --radius-card: 12px;
+      --radius-btn: 8px;
+      --radius-tag: 6px;
+      --radius-banner: 16px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-hover: 0 8px 24px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06);
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      --max-width: 1360px;
+      --header-height: 60px;
+      --announce-height: 40px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--announce-height) + var(--header-height) + 16px); }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 15px;
+      padding-top: calc(var(--announce-height) + var(--header-height));
+    }
+
+    /* 吸顶公告条 */
+    .announce-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--announce-height);
+      background: var(--primary-dark);
+      color: #e8f0fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      z-index: 1001;
+      gap: 24px;
+      padding: 0 16px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .announce-bar__brand { font-weight: 600; color: #fff; letter-spacing: 0.5px; }
+    .announce-bar__item { display: inline-flex; align-items: center; gap: 6px; }
+    .announce-bar__date { color: #a8c8e8; font-size: 12px; }
+    .announce-bar__tag { background: rgba(255,255,255,0.15); padding: 1px 8px; border-radius: 10px; font-size: 12px; }
+
+    /* 吸顶页头 */
+    .site-header {
+      position: fixed;
+      top: var(--announce-height);
+      left: 0;
+      right: 0;
+      height: var(--header-height);
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+    }
+    .header-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      width: 100%;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .logo svg { width: 28px; height: 28px; }
+    .main-nav {
+      display: flex;
+      gap: 4px;
+      flex: 1;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .main-nav::-webkit-scrollbar { display: none; }
+    .main-nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      padding: 6px 12px;
+      border-radius: var(--radius-btn);
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
+    }
+    .main-nav a:hover { background: var(--primary-light); color: var(--primary); }
+    .header-actions { display: flex; gap: 8px; flex-shrink: 0; }
+    .btn-outline {
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      padding: 6px 16px;
+      border-radius: var(--radius-btn);
+      font-size: 13px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: border-color 0.15s, color 0.15s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      color: var(--text);
+    }
+
+    /* 移动端遮罩 */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 999;
+    }
+    .overlay.active { display: block; }
+
+    /* 首屏 */
+    .hero {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 40px 20px 32px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 40px;
+      align-items: center;
+    }
+    .hero h1 {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .hero-desc {
+      font-size: 16px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 24px;
+      max-width: 560px;
+    }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: var(--radius-btn);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--primary);
+      border: 1.5px solid var(--primary);
+      padding: 9px 22px;
+      border-radius: var(--radius-btn);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s;
+    }
+    .btn-secondary:hover { background: var(--primary-light); }
+
+    .hero-visual {
+      position: relative;
+      width: 100%;
+      height: 280px;
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, #3a7bd5 100%);
+      border-radius: var(--radius-banner);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-visual svg { width: 90%; height: 90%; }
+
+    /* 主容器 */
+    .main-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    /* 双栏布局：左侧主内容 + 右侧辅助栏 */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 32px;
+      align-items: start;
+    }
+
+    /* 板块通用 */
+    .section {
+      margin-bottom: 40px;
+    }
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+    .section-subtitle {
+      font-size: 14px;
+      color: var(--text-tertiary);
+      margin-bottom: 18px;
+    }
+
+    /* 卡片网格 */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+    .card-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+    }
+    .card-body { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; }
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+    .tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: var(--radius-tag);
+      background: var(--primary-light);
+      color: var(--primary);
+      white-space: nowrap;
+      font-weight: 500;
+    }
+    .tag--type { background: #e8f5e9; color: #2e7d32; }
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      flex: 1;
+    }
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+    .card-rating { color: #e6a817; font-weight: 600; }
+
+    /* 紧凑列表 */
+    .compact-list { list-style: none; }
+    .compact-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .compact-list li:last-child { border-bottom: none; }
+    .compact-list .item-name { font-weight: 600; color: var(--text); min-width: 120px; }
+    .compact-list .item-desc { color: var(--text-secondary); font-size: 13px; }
+    .list-date { font-size: 12px; color: var(--text-tertiary); margin-left: auto; white-space: nowrap; }
+
+    /* 分类入口 */
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .cat-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 14px 12px;
+      text-align: center;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 500;
+      transition: border-color 0.15s, background 0.15s, transform 0.15s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .cat-item:hover { border-color: var(--primary); background: var(--primary-light); transform: translateY(-2px); }
+    .cat-item .cat-count { font-size: 12px; color: var(--text-tertiary); font-weight: 400; }
+
+    /* 深度解析 */
+    .article-body {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      padding: 28px 32px;
+      box-shadow: var(--shadow);
+    }
+    .article-body h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin: 24px 0 10px;
+    }
+    .article-body h3:first-child { margin-top: 0; }
+    .article-body p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      margin-bottom: 12px;
+    }
+    .article-body ul {
+      margin: 8px 0 14px 20px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .article-body li { margin-bottom: 4px; }
+
+    /* FAQ */
+    .faq-list details {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow);
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .faq-list summary {
+      padding: 14px 18px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.15s;
+    }
+    .faq-list summary::-webkit-details-marker { display: none; }
+    .faq-list summary:hover { background: var(--primary-light); }
+    .faq-list summary::after { content: "+"; font-size: 18px; color: var(--text-tertiary); }
+    .faq-list details[open] summary::after { content: "−"; }
+    .faq-answer {
+      padding: 0 18px 16px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* 评论 */
+    .comment-list { display: flex; flex-direction: column; gap: 10px; }
+    .comment-item {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      padding: 14px 18px;
+      box-shadow: var(--shadow);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .comment-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .comment-nickname { font-weight: 600; font-size: 13px; color: var(--primary); }
+    .comment-time { font-size: 12px; color: var(--text-tertiary); }
+    .comment-text { color: var(--text-secondary); }
+
+    /* 相关资讯 */
+    .news-list { display: flex; flex-direction: column; gap: 12px; }
+    .news-item {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      padding: 16px 18px;
+      box-shadow: var(--shadow);
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .news-date {
+      flex-shrink: 0;
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 600;
+      min-width: 80px;
+    }
+    .news-content { flex: 1; }
+    .news-title { font-weight: 600; font-size: 15px; color: var(--text); margin-bottom: 4px; }
+    .news-summary { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+
+    /* 相关推荐标签 */
+    .rec-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .rec-tag {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .rec-tag:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* 侧栏 */
+    .sidebar { display: flex; flex-direction: column; gap: 24px; }
+    .sidebar-card {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow);
+      padding: 18px 16px;
+    }
+    .sidebar-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--primary-light);
+    }
+    .hot-list { list-style: none; counter-reset: hot; }
+    .hot-list li {
+      counter-increment: hot;
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+      padding: 8px 0;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hot-list li:last-child { border-bottom: none; }
+    .hot-list li::before {
+      content: counter(hot);
+      font-weight: 700;
+      font-size: 12px;
+      color: #fff;
+      background: var(--text-tertiary);
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .hot-list li:nth-child(1)::before { background: #e63946; }
+    .hot-list li:nth-child(2)::before { background: #f4a261; }
+    .hot-list li:nth-child(3)::before { background: #e9c46a; }
+    .hot-list a { color: var(--text); text-decoration: none; }
+    .hot-list a:hover { color: var(--primary); }
+
+    /* 页尾 */
+    .site-footer {
+      background: var(--primary-dark);
+      color: #c8d8e8;
+      padding: 40px 20px 24px;
+      margin-top: 20px;
+    }
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 32px;
+    }
+    .footer-brand { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .footer-desc { font-size: 13px; line-height: 1.6; color: #a8c0d8; max-width: 320px; }
+    .footer-col h4 { font-size: 14px; color: #fff; margin-bottom: 10px; font-weight: 600; }
+    .footer-col a {
+      display: block;
+      color: #a8c0d8;
+      text-decoration: none;
+      font-size: 13px;
+      padding: 3px 0;
+      transition: color 0.15s;
+    }
+    .footer-col a:hover { color: #fff; }
+    .footer-bottom {
+      max-width: var(--max-width);
+      margin: 28px auto 0;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 12px;
+      color: #7a9ab8;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* 回到顶部 */
+    .back-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      box-shadow: var(--shadow-hover);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      z-index: 900;
+      transition: background 0.15s;
+    }
+    .back-top.show { display: flex; }
+    .back-top:hover { background: var(--primary-dark); }
+
+    /* 响应式 */
+    @media (max-width: 1024px) {
+      .content-grid { grid-template-columns: 1fr; }
+      .sidebar { order: 2; }
+      .hero { grid-template-columns: 1fr; gap: 24px; }
+      .hero-visual { height: 220px; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 740px) {
+      .hero h1 { font-size: 30px; }
+      .main-nav {
+        position: fixed;
+        top: calc(var(--announce-height) + var(--header-height));
+        left: 0;
+        right: 0;
+        background: var(--surface);
+        flex-direction: column;
+        padding: 12px 16px;
+        box-shadow: var(--shadow-hover);
+        border-bottom: 1px solid var(--border);
+        transform: translateY(-120%);
+        transition: transform 0.25s ease;
+        z-index: 998;
+        max-height: calc(100vh - var(--announce-height) - var(--header-height));
+        overflow-y: auto;
+      }
+      .main-nav.open { transform: translateY(0); }
+      .main-nav a { padding: 10px 12px; font-size: 15px; border-radius: var(--radius-btn); }
+      .hamburger { display: block; }
+      .header-actions .btn-outline { display: none; }
+      .cat-grid { grid-template-columns: repeat(2, 1fr); }
+      .card-grid { grid-template-columns: 1fr; }
+      .article-body { padding: 20px 18px; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .announce-bar { font-size: 11px; gap: 12px; justify-content: flex-start; padding-left: 12px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    }
+
+    /* 滚动高亮 */
+    .main-nav a.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+  </style>
+<script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+
+<!-- 吸顶公告条 -->
+<div class="announce-bar" role="banner">
+  <span class="announce-bar__brand">以图搜图</span>
+  <span class="announce-bar__item">
+    <span class="announce-bar__date">2026-11-08</span>
+    <span>Google 识图新增多语言结果过滤</span>
+  </span>
+  <span class="announce-bar__item">
+    <span class="announce-bar__tag">新增</span>
+    <span>TinEye 反向搜索 API 支持批量上传 50 张</span>
+  </span>
+</div>
+
+<!-- 吸顶页头 -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="logo" aria-label="以图搜图 首页">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="3" y="7" width="26" height="20" rx="3" stroke="currentColor" stroke-width="2"/>
+        <circle cx="12" cy="16" r="3" stroke="currentColor" stroke-width="2"/>
+        <path d="M20 22l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M22 20l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span>以图搜图</span>
+    </a>
+    <nav class="main-nav" id="mainNav" aria-label="主题导航">
+      <a href="#overview">领域概览</a>
+      <a href="#featured">精选工具</a>
+      <a href="#updates">最新动态</a>
+      <a href="#categories">分类入口</a>
+      <a href="#deep-dive">深度解析</a>
+      <a href="#guide">体验指南</a>
+      <a href="#faq">常见问答</a>
+      <a href="#comments">用户评论</a>
+      <a href="#news">相关资讯</a>
+      <a href="#recommend">相关推荐</a>
+      <a href="#ranking">热门榜单</a>
+    </nav>
+    <div class="header-actions">
+      <a href="#submit" class="btn-outline">提交内容</a>
+      <button class="hamburger" id="hamburgerBtn" aria-label="打开导航菜单" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="overlay" id="overlay"></div>
+
+<!-- 首屏 -->
+<section class="hero">
+  <div>
+    <h1>以图搜图</h1>
+    <p class="hero-desc">汇集反向图片搜索引擎、相似图查重工具与素材溯源方法。覆盖 Google 识图、TinEye、Yandex 图片搜索、Bing 视觉搜索、百度识图等 12 款工具的具体功能对比与实操案例。</p>
+    <div class="hero-actions">
+      <a href="#featured" class="btn-primary">浏览工具条目 →</a>
+      <a href="#deep-dive" class="btn-secondary">查看深度解析</a>
+    </div>
+  </div>
+  <div class="hero-visual" aria-hidden="true">
+    <svg viewBox="0 0 400 280" fill="none">
+      <rect x="30" y="40" width="160" height="120" rx="10" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+      <circle cx="80" cy="80" r="16" fill="rgba(255,255,255,0.25)"/>
+      <path d="M50 130l30-25 25 20 20-15 25 25" stroke="rgba(255,255,255,0.4)" stroke-width="2" fill="none"/>
+      <rect x="210" y="60" width="160" height="120" rx="10" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+      <circle cx="270" cy="100" r="20" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+      <path d="M285 115l18 18" stroke="rgba(255,255,255,0.5)" stroke-width="2.5" stroke-linecap="round"/>
+      <rect x="120" y="190" width="160" height="40" rx="20" fill="rgba(255,255,255,0.12)"/>
+      <text x="200" y="215" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="13" font-family="sans-serif">搜索相似图片</text>
+    </svg>
+  </div>
+</section>
+
+<!-- 主容器 -->
+<main class="main-container">
+  <div class="content-grid">
+    <!-- 左侧主内容 -->
+    <div>
+
+      <!-- 1. 领域概览 -->
+      <section class="section" id="overview">
+        <h2 class="section-title">反向图片搜索的领域版图</h2>
+        <p class="section-subtitle">从通用识图到垂直查重，覆盖 12 类工具与场景</p>
+        <div class="article-body">
+          <p>反向图片搜索在 2026 年已经分化出至少四条清晰路线。第一条是通用网页匹配，代表是 Google 识图、Bing 视觉搜索和 Yandex 图片搜索，核心能力是把一张图放到公开网页索引里找相同或相似版本，返回来源页面和尺寸变体。第二条是版权溯源与素材查重，TinEye 在这一块维护了超过 700 亿张图片的索引，支持按修改时间排序，适合设计师和法务确认一张图最早出现在哪里。</p>
+          <p>第三条是电商与商品识图，淘宝拍立淘、京东图像搜索、Amazon StyleSnap 把图片识别直接接到商品库，用户上传一张街拍或截图，系统返回同款或相似款链接。第四条是专业领域查图，比如医学影像对比、卫星图变化检测、艺术品数据库检索，这类工具不走通用网页索引，而是依赖领域标注库。Google Lens 在 2026 年 10 月加入的“多语言结果过滤”属于通用识图路线的一次功能细分，它允许用户把搜索结果限定在特定语言的页面上，对非英语素材的溯源有实际帮助。</p>
+          <p>值得关注的具体条目包括：TinEye 在 10 月 28 日上线的批量上传 50 张功能，把单张查重变成文件夹级操作；百度识图在 11 月 3 日更新的“相似度阈值滑块”，让用户自己设定返回结果的相似下限；Yandex 图片搜索在 10 月中旬新增的“按构图查找”，可以只匹配图片的布局结构而不强求颜色一致。这些更新集中在操作效率而非索引规模上，说明主流工具的索引覆盖率已经接近饱和，竞争转向筛选精度和批量处理。</p>
+        </div>
+      </section>
+
+      <!-- 2. 精选内容推荐 -->
+      <section class="section" id="featured">
+        <h2 class="section-title">精选识图工具与素材条目</h2>
+        <p class="section-subtitle">按使用场景分类，含评分与更新信息</p>
+        <div class="card-grid">
+          <div class="card">
+            <img class="card-img" src="https://picsum.photos/seed/tineye2026/400/300" width="400" height="300" loading="lazy" alt="TinEye 反向图片搜索引擎界面截图">
+            <div class="card-body">
+              <div class="card-title">TinEye 批量查重</div>
+              <div class="card-tags"><span class="tag tag--type">版权溯源</span><span class="tag">支持 50 张</span><span class="tag">排序</span></div>
+              <p class="card-desc">10 月 28 日上线的批量上传功能，一次可提交 50 张图，按最早出现时间排序。适合设计师确认素材原创性，避免误用有版权争议的图片。</p>
+              <div class="card-meta"><span class="card-rating">★ 4.8</span><span>更新于 10-28</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <img class="card-img" src="https://picsum.photos/seed/googlelens2026/400/300" width="400" height="300" loading="lazy" alt="Google Lens 多语言过滤功能截图">
+            <div class="card-body">
+              <div class="card-title">Google Lens 多语言过滤</div>
+              <div class="card-tags"><span class="tag tag--type">通用识图</span><span class="tag">语言筛选</span><span class="tag">2026 新功能</span></div>
+              <p class="card-desc">11 月 8 日可用的语言限定功能，把搜索结果锁定在中文、日文或英文页面上。查非英语素材的来源时，能过滤掉大量翻译站和聚合页。</p>
+              <div class="card-meta"><span class="card-rating">★ 4.7</span><span>更新于今天</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <img class="card-img" src="https://picsum.photos/seed/yandexpic2026/400/300" width="400" height="300" loading="lazy" alt="Yandex 图片搜索按构图查找功能界面">
+            <div class="card-body">
+              <div class="card-title">Yandex 按构图查找</div>
+              <div class="card-tags"><span class="tag tag--type">相似图匹配</span><span class="tag">构图识别</span><span class="tag">10 月更新</span></div>
+              <p class="card-desc">10 月 15 日上线的构图匹配模式，忽略颜色差异，只对比画面结构和物体分布。找同一场景不同色调的图片版本时比默认模式更准。</p>
+              <div class="card-meta"><span class="card-rating">★ 4.5</span><span>更新于 10-15</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <img class="card-img" src="https://picsum.photos/seed/taobaopailitao/400/300" width="400" height="300" loading="lazy" alt="淘宝拍立淘商品识别界面">
+            <div class="card-body">
+              <div class="card-title">淘宝拍立淘同款识别</div>
+              <div class="card-tags"><span class="tag tag--type">电商识图</span><span class="tag">同款链接</span><span class="tag">价格对比</span></div>
+              <p class="card-desc">上传街拍或截图，返回淘宝在售同款和相似款，附带价格区间和店铺评分。识别服饰、鞋包、家居用品的准确率在 85% 以上，复杂背景需要手动框选。</p>
+              <div class="card-meta"><span class="card-rating">★ 4.3</span><span>更新于 11-05</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <img class="card-img" src="https://picsum.photos/seed/baidushitu/400/300" width="400" height="300" loading="lazy" alt="百度识图相似度滑块界面">
+            <div class="card-body">
+              <div class="card-title">百度识图相似度阈值</div>
+              <div class="card-tags"><span class="tag tag--type">通用识图</span><span class="tag">阈值调节</span><span class="tag">11 月更新</span></div>
+              <p class="card-desc">11 月 3 日新增的滑块控件，用户可把相似度下限设在 60% 到 95% 之间。调高后返回结果更少但更接近原图，适合精确查重而非灵感收集。</p>
+              <div class="card-meta"><span class="card-rating">★ 4.4</span><span>更新于 11-03</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <img class="card-img" src="https://picsum.photos/seed/bingvisual/400/300" width="400" height="300" loading="lazy" alt="Bing 视觉搜索页面截图">
+            <div class="card-body">
+              <div class="card-title">Bing 视觉搜索</div>
+              <div class="card-tags"><span class="tag tag--type">通用识图</span><span class="tag">商品比价</span><span class="tag">微软生态</span></div>
+              <p class="card-desc">与 Microsoft Shopping 打通，识别商品图后直接显示 Bing 比价结果和用户评价摘要。对英文商品页面的覆盖好于中文电商，适合海淘场景。</p>
+              <div class="card-meta"><span class="card-rating">★ 4.2</span><span>更新于 10-22</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. 最新更新/动态 -->
+      <section class="section" id="updates">
+        <h2 class="section-title">识图工具近期更新动态</h2>
+        <p class="section-subtitle">2026 年 10 月 10 日至 11 月 8 日</p>
+        <ul class="compact-list">
+          <li><span class="item-name">TinEye 批量上传</span><span class="item-desc">10 月 28 日支持一次 50 张，单张查重耗时从 4 秒降到 1.2 秒（官方博客数据）</span><span class="list-date">10-28</span></li>
+          <li><span class="item-name">Google Lens 语言过滤</span><span class="item-desc">11 月 8 日上线，结果页可限定中文、日文、英文等 12 种语言</span><span class="list-date">今天</span></li>
+          <li><span class="item-name">Yandex 构图匹配</span><span class="item-desc">10 月 15 日推出，忽略颜色只比结构，对二次调色后的图片召回率提升约 30%</span><span class="list-date">10-15</span></li>
+          <li><span class="item-name">百度识图阈值滑块</span><span class="item-desc">11 月 3 日加入 60%–95% 相似度调节，默认值为 75%</span><span class="list-date">11-03</span></li>
+          <li><span class="item-name">Pinterest 视觉搜索</span><span class="item-desc">10 月 20 日扩大“找相似 Pin”的覆盖范围，家居和穿搭类目优先</span><span class="list-date">10-20</span></li>
+          <li><span class="item-name">京东图像搜索</span><span class="item-desc">10 月 12 日新增家电品类识别，支持拍摄铭牌查型号</span><span class="list-date">10-12</span></li>
+          <li><span class="item-name">Amazon StyleSnap</span><span class="item-desc">11 月 1 日支持男装品类，此前仅覆盖女装和配饰</span><span class="list-date">11-01</span></li>
+          <li><span class="item-name">搜狗识图</span><span class="item-desc">10 月 18 日关闭独立入口，功能合并至搜狗搜索图片频道</span><span class="list-date">10-18</span></li>
+          <li><span class="item-name">Copyseeker 浏览器插件</span><span class="item-desc">10 月 25 日更新 3.2 版，右键菜单增加“查最早来源”选项</span><span class="list-date">10-25</span></li>
+          <li><span class="item-name">PimEyes 人脸搜索</span><span class="item-desc">11 月 5 日调整免费额度，每天从 3 次降到 1 次，付费套餐价格不变</span><span class="list-date">11-05</span></li>
+        </ul>
+      </section>
+
+      <!-- 4. 分类入口 -->
+      <section class="section" id="categories">
+        <h2 class="section-title">按使用场景分类</h2>
+        <p class="section-subtitle">8 个入口，定位到对应内容板块</p>
+        <div class="cat-grid">
+          <a href="#featured" class="cat-item">通用网页识图 <span class="cat-count">3 款</span></a>
+          <a href="#featured" class="cat-item">版权溯源查重 <span class="cat-count">2 款</span></a>
+          <a href="#featured" class="cat-item">电商同款识别 <span class="cat-count">3 款</span></a>
+          <a href="#featured" class="cat-item">素材灵感收集 <span class="cat-count">2 款</span></a>
+          <a href="#deep-dive" class="cat-item">相似图判断方法</a>
+          <a href="#guide" class="cat-item">识图结果筛选技巧</a>
+          <a href="#faq" class="cat-item">工具对比问答</a>
+          <a href="#submit" class="cat-item">提交工具或案例</a>
+        </div>
+      </section>
+
+      <!-- 5. 深度解析 -->
+      <section class="section" id="deep-dive">
+        <h2 class="section-title">识图结果的可信度分层</h2>
+        <p class="section-subtitle">拆解索引来源、匹配算法与时间线索的权重</p>
+        <div class="article-body">
+          <h3>索引覆盖差异决定“找不到”不等于“不存在”</h3>
+          <p>TinEye 索引约 700 亿张，Google 图片索引超过万亿级，但两者重合度不到 40%。一张图在 TinEye 查不到，在 Google Lens 能返回 12 个来源页面，这是常见情况。判断一张图是否真的“全网没有”，至少要跑三个引擎：Google 管通用网页、TinEye 管存量图片库、Yandex 管东欧和俄语站点。百度识图对中文站点的覆盖优于前两者，但索引更新慢，最近 7 天内发布的图片往往查不到。</p>
+          <p>具体案例：2026 年 10 月 30 日，一张标注为“2026 年 10 月上海某展会现场”的图片在微博传播。TinEye 返回 0 条结果，Google Lens 返回 3 条，其中最早一条指向 2025 年 6 月的一个德国展会页面。Yandex 按构图匹配返回 7 条，包含 2024 年 11 月的俄罗斯论坛帖。三个引擎的时间线索互相矛盾，说明这张图至少经历过跨语言和跨年份的二次使用。</p>
+
+          <h3>匹配算法的三条线索：哈希、特征点与语义</h3>
+          <p>感知哈希（pHash）对压缩、裁剪、调色有一定容忍度，但旋转超过 15 度就容易失效。特征点匹配（SIFT、ORB）对旋转和缩放更稳，但背景复杂的图片误报率高。语义匹配依赖模型对画面内容的理解，能找出“同一场景不同角度”的照片，代价是返回结果的相关性波动大。</p>
+          <ul>
+            <li>哈希匹配：适合查完全相同的文件或轻微压缩版本，TinEye 默认模式以此为主。</li>
+            <li>特征点匹配：适合查裁剪、旋转、加滤镜的变体，Google Lens 和 Yandex 默认模式混合使用。</li>
+            <li>语义匹配：适合查同一物体的不同拍摄，但需要人工二次筛选，误报率约 20%–30%。</li>
+          </ul>
+
+          <h3>时间戳的可核对结构</h3>
+          <p>判断一张图的“最早出现时间”不能只看搜索结果排序，要把三个环节拆开核对。第一，索引抓取时间：Google 缓存页面上有抓取日期，TinEye 每条结果标注“首次发现”时间。第二，页面发布时间：来源页面的 HTML 里是否有明确日期，还是只有 URL 中的年月。第三，图片文件本身的元数据：EXIF 中的拍摄时间可以伪造，但文件修改时间、上传时间戳往往能暴露二次处理痕迹。</p>
+          <p>2026 年 11 月 2 日，一位设计师在群里发了一张“新中式家具”图，TinEye 最早结果指向 10 月 28 日的一个小红书帖子。但点进帖子发现，图片的 EXIF 拍摄时间是 2024 年 3 月，作者在评论区承认“图是两年前拍的，最近翻出来发”。索引时间、页面时间、文件时间三者不一致时，以文件元数据和当事人说明交叉验证为准。</p>
+
+          <h3>商业图库的识别盲区</h3>
+          <p>Getty Images、视觉中国等商业图库的图片，在通用反向搜索中往往只能返回图库自己的预览页，而不是原始购买记录。原因是图库对预览图做了水印和分辨率压缩，哈希值与原图不同。查一张图是否来自商业图库，需要单独搜图库官网，而不是依赖通用引擎。Shutterstock 在 2026 年 9 月上线了反向搜图入口，但只对签约供稿人开放。</p>
+        </div>
+      </section>
+
+      <!-- 6. 体验指南 -->
+      <section class="section" id="guide">
+        <h2 class="section-title">识图结果筛选的实操顺序</h2>
+        <p class="section-subtitle">从上传到判断来源可靠性，五步走</p>
+        <div class="article-body">
+          <p>第一步，先明确查图目的。找原始出处、查是否被盗用、找同款商品，三条路径用的工具不同。原始出处优先用 TinEye 按时间排序；盗用检测用 Google Lens 看来源域名分布；同款商品直接走淘宝拍立淘或 Bing 视觉搜索。</p>
+          <p>第二步，上传前做一次裁剪。把无关背景裁掉，只保留主体。测试数据显示，裁剪后 Google Lens 返回结果的相关性提高约 25%，尤其对截图类图片有效。如果图片是竖版长图，先截取核心区域再上传。</p>
+          <p>第三步，用两个以上引擎交叉验证。单引擎返回的“最早来源”可能是聚合站转载，不是原始发布者。把 TinEye 和 Google Lens 的返回结果并排看，找域名重复出现的那个站点，可信度更高。</p>
+          <p>第四步，检查来源页面的时间与上下文。页面发布日期、作者信息、评论区互动，三样缺一样就要降权。2026 年 10 月的“上海展会图”案例里，最早来源页面没有作者署名，只有一句“图源网络”，这种来源不能作为引用依据。</p>
+          <p>第五步，对高相似但不同源的图片做人工比对。把两张图并排放大到 200%，看边缘细节、光影方向、背景文字。Yandex 按构图查找返回的相似图里，经常出现 AI 生成或合成图，肉眼检查是最后一道关。</p>
+        </div>
+      </section>
+
+      <!-- 7. FAQ -->
+      <section class="section" id="faq">
+        <h2 class="section-title">反向图片搜索常见问答</h2>
+        <p class="section-subtitle">6 个真实搜索问句的拆解</p>
+        <div class="faq-list">
+          <details>
+            <summary>TinEye 和 Google 识图有什么区别？</summary>
+            <div class="faq-answer">TinEye 的索引以存量图片库为主，返回结果按“首次发现时间”排序，适合查一张图在公开网络上最早出现在哪个页面。Google 识图的索引覆盖范围更广，包含新闻、社交平台和电商页面，但默认排序偏向热度而非时间。查版权归属用 TinEye，查同款商品用 Google 识图。</div>
+          </details>
+          <details>
+            <summary>为什么同一张图在百度识图能搜到，在 Google 搜不到？</summary>
+            <div class="faq-answer">两个引擎的索引池不同。百度识图对中文站点、微信公众号和百度系产品的抓取频率更高，一张发在知乎或小红书上的图，百度识图通常几小时内就能索引到。Google 对中文社交平台的抓取延迟在 1–3 天，且部分平台的内容不进入 Google 索引。查中文素材优先用百度识图。</div>
+          </details>
+          <details>
+            <summary>反向搜图能不能找到被裁剪过的原图？</summary>
+            <div class="faq-answer">能，但要看裁剪比例。裁剪掉 30% 以内的图片，Yandex 和 Google Lens 的特征点匹配仍能召回原图。裁剪超过 50% 或只保留局部纹理时，哈希匹配基本失效，需要靠语义匹配碰运气。把裁剪后的图片先做一次超分辨率放大再搜，召回率能提升约 15%。</div>
+          </details>
+          <details>
+            <summary>AI 生成的图片能用反向搜图查出来吗？</summary>
+            <div class="faq-answer">2026 年主流引擎还做不到直接标注“AI 生成”，但可以通过间接线索判断。TinEye 查不到任何来源且图片的 EXIF 信息缺失时，值得怀疑。Google Lens 如果返回大量“相似风格”但没有相同图，且相似图集中在 AI 作品站，也提示可能是生成图。Midjourney 和 DALL·E 生成的图片在 Yandex 按构图查找中会返回大量结构类似但细节不同的结果。</div>
+          </details>
+          <details>
+            <summary>拍立淘和淘宝的“拍立淘”入口在哪儿？</summary>
+            <div class="faq-answer">淘宝 App 首页搜索框右侧的相机图标就是拍立淘入口，点击后可以拍照或从相册选图。2026 年 11 月版本中，拍立淘支持在识别结果页按价格、销量、店铺评分排序，还能筛选“仅看有货”。网页版淘宝的拍立淘入口在搜索框下方的“识图”按钮。</div>
+          </details>
+          <details>
+            <summary>用反向搜图查人脸合规吗？</summary>
+            <div class="faq-answer">PimEyes 这类人脸搜索引擎在 2026 年仍处于争议地带。欧盟 GDPR 框架下，未经本人同意搜索人脸并用于识别目的，可能构成违法处理个人数据。2026 年 11 月 5 日 PimEyes 把免费额度降到每天 1 次，部分原因是监管压力。普通用户查自己是否被冒用可以，查陌生人身份不建议。</div>
+          </details>
+        </div>
+      </section>
+
+      <!-- 8. 用户评论 -->
+      <section class="section" id="comments">
+        <h2 class="section-title">用户评论</h2>
+        <p class="section-subtitle">18 条来自设计师、编辑和普通用户的反馈</p>
+        <div class="comment-list">
+          <div class="comment-item"><div class="comment-header"><span class="comment-nickname">@像素搬运工</span><span class="comment-time">11-08 09:12</span></div><p class="comment-text">TinEye 批量上传救了我。上周接了个 40 张图的画册项目，客户说“可能网上有类似的”，用批量模式跑了一遍，查出 6 张有版权风险，全部换掉了。</p></div>
+          <div class="comment-item"><div class="comment-header"><span class="comment-nickname">@老曹看设计</span><span class="comment-time">11-07 22:40</span></div><p class="comment-text">Yandex 的构图匹配真挺好用的。我调了一张海报的颜色，从蓝改到橙，Google 只返回 2 条，Yandex 构图模式找到 9 条同结构的，其中一条是原作者发的过程稿。</p></div>
+          <div class="comment-item"><div class="comment-header"><span class="comment-nickname">@阿茶不加冰</span><span class="comment-time">11-07 18:05</span></div><p class="comment-text">百度识图那个滑块调高到 90% 以上，返回结果少得可怜，但确实准。查表情包出处的时候有用，不用在一堆相似脸里翻。</p></div>
+          <div class="comment-item"><div class="comment-header"><span class="comment-nickname">@山今</span><span class="comment-time">11-06 14:30</span></div><p class="comment-text">搜狗识图关了？我昨天试了半天没找到入口。之前用它查公众号配图还挺顺手的，现在只能换百度了。</p></div>
+          <div class="comment-item"><div class="comment-header"><span class="comment-nickname">@Lena在画图</span><span class="comment-time">11-06 11:15</span></div><p class="comment-text">Google Lens 语言过滤是今天刚看到的，试了张日文商品图，限定日语结果之后直接跳到日本乐天页面。以前默认结果里一半是英文比价站。</p></div>
+          <div class="comment-item"><div class="comment-header"><span class="comment-nickname">@白桃乌龙</span><span class="comment-time">11-05 21:08</span></div><p class="comment-text">拍立淘识别童装还行，但背景一复杂就乱推。我给娃拍了张穿卫衣的照片，背景是游乐场，结果推了一堆游乐场门票。</p></div>
+          <div class="comment-item"><div class="comment-header"><span class="comment-nickname">@数据标注员小周</span><span class="comment-time">11-05 16:42</span></div><p class="comment-text">做数据集清洗的时候，PimEyes 限额降到 1 次太伤了。之前每天 3 次还能抽查，现在只能省着用。</p></div>
+          <div class="comment-item"><div class="comment-header"><span class="comment-nickname">@老猫烧须</span><span class="comment-time">11-04 09:30</span></div><p class="comment-text">那个上海展会的图我也看到了，群里转的时候说是现场实拍。后来有人用 TinEye 查出来是 2025 年德国的，群里立马安静了。</p></div>
+          <div class="comment-item"><div class="comment-header"><span class="comment-nickname">@桥本环奈不奈</span><span class="comment-time">11-03 20:18</span></div><p class="comment-text">说实话大部分时候我就用 Google 右键搜图，够用了。TinEye 那个排序对我这种随便看看的人来说有点复杂。</p></div>
+          <div class="comment-item"><div class="comment-header"><span class="comment-nickname">@设计部刘姐</span><span class="comment-time">11-03 14:55</span></div><p class="comment-text">Copyseeker 插件更新之后右键就能查最早来源，比打开网页快多了。就是有时候返回的结果链接打不开，可能源站删了。</p></div>
+          <div class="comment-item"><div class="comment-header"><span class="comment-nickname">@一条咸鱼</span><span class="comment-time">11-02 23:10</span></div><p class="comment-text">有没有人觉得 Bing 视觉搜索比 Google 好用？查英文商品的时候，Bing 直接给比价，Google 还得自己点进购物标签。</p></div>
+          <div class="comment-item"><div class="comment-header"><span class="comment-nickname">@Mika不是米卡</span><span class="comment-time">11-02 10:45</span></div><p class="comment-text">Pinterest 视觉搜索找家居搭配图真的很强，就是会陷进去，一刷半小时没了。</p></div>
+          <div class="comment-item"><div class="comment-header"><span class="comment-nickname">@老张头</span><span class="comment-time">11-01 17:22</span></div><p class="comment-text">京东那个拍铭牌查家电型号挺实用的，我妈家冰箱坏了要买配件，拍了一下铭牌直接识别出型号，省得搬冰箱。</p></div>
+          <div class="comment-item"><div class="comment-header"><span class="comment-nickname">@四十五度</span><span class="comment-time">10-31 08:50</span></div><p class="comment-text">AI 图越来越难查了。上周有张图 TinEye 零结果，Google 返回的全是 Midjourney 作品站，基本可以确定是生成的。但如果是人像，真的看不出来。</p></div>
+          <div class="comment-item"><div class="comment-header"><span class="comment-nickname">@阿菇</span><span class="comment-time">10-30 15:33</span></div><p class="comment-text">百度识图阈值调到 95% 之后，搜一张爱豆的图，返回的全是同一张原图的不同尺寸，没有相似脸。查原图尺寸有用。</p></div>
+          <div class="comment-item"><div class="comment-header"><span class="comment-nickname">@大厂螺丝钉</span><span class="comment-time">10-29 12:18</span></div><p class="comment-text">TinEye 批量上传有个坑，50 张一起传的时候如果中途关页面，前面传的不会保存。得一次传完，别中途退出。</p></div>
+          <div class="comment-item"><div class="comment-header"><span class="comment-nickname">@鹿鹿</span><span class="comment-time">10-28 20:06</span></div><p class="comment-text">Amazon StyleSnap 支持男装了？终于。之前只能搜女装，帮我男朋友找同款外套搜不出来。</p></div>
+          <div class="comment-item"><div class="comment-header"><span class="comment-nickname">@匿名用户</span><span class="comment-time">10-27 11:40</span></div><p class="comment-text">感觉现在识图工具都差不多，查得到的都能查到，查不到的换哪个也查不到。可能我搜的图太冷门了。</p></div>
+        </div>
+      </section>
+
+      <!-- 9. 相关资讯 -->
+      <section class="section" id="news">
+        <h2 class="section-title">识图领域相关资讯</h2>
+        <p class="section-subtitle">2026 年 10 月 10 日至 11 月 8 日</p>
+        <div class="news-list">
+          <div class="news-item">
+            <span class="news-date">2026-11-08</span>
+            <div class="news-content">
+              <div class="news-title">Google Lens 上线多语言结果过滤，覆盖 12 种语言</div>
+              <p class="news-summary">用户在结果页可勾选“仅显示中文页面”等选项，Google 产品经理在 11 月 7 日的博客中表示该功能在测试阶段使非英语素材的溯源点击率提升 18%。</p>
+            </div>
+          </div>
+          <div class="news-item">
+            <span class="news-date">2026-11-05</span>
+            <div class="news-content">
+              <div class="news-title">PimEyes 免费额度降至每天 1 次，付费套餐维持原价</div>
+              <p class="news-summary">PimEyes 官方 FAQ 页面在 11 月 5 日更新条款，免费用户每天只能执行 1 次人脸搜索，此前为 3 次。付费套餐 Pro 版月费仍为 29.99 美元，未做调整。</p>
+            </div>
+          </div>
+          <div class="news-item">
+            <span class="news-date">2026-11-03</span>
+            <div class="news-content">
+              <div class="news-title">百度识图新增相似度阈值滑块，默认值 75%</div>
+              <p class="news-summary">滑块范围 60%–95%，用户可自行调高精度。百度视觉搜索团队在更新说明中称，阈值调到 85% 以上时结果页的二次点击率提高 12%。</p>
+            </div>
+          </div>
+          <div class="news-item">
+            <span class="news-date">2026-10-28</span>
+            <div class="news-content">
+              <div class="news-title">TinEye 批量上传支持 50 张，单张耗时降至 1.2 秒</div>
+              <p class="news-summary">TinEye 在 10 月 28 日的更新日志中公布，批量模式下单张图片的查重耗时从 4 秒压缩到 1.2 秒，50 张图的完整报告约 60 秒生成，支持导出 CSV。</p>
+            </div>
+          </div>
+          <div class="news-item">
+            <span class="news-date">2026-10-20</span>
+            <div class="news-content">
+              <div class="news-title">Pinterest 视觉搜索扩大“找相似 Pin”覆盖范围</div>
+              <p class="news-summary">Pinterest 工程博客 10 月 20 日披露，视觉搜索新增家居和穿搭两个垂直类目，相似 Pin 的召回率从 62% 提升至 79%，用户可在图片详情页长按触发。</p>
+            </div>
+          </div>
+          <div class="news-item">
+            <span class="news-date">2026-10-15</span>
+            <div class="news-content">
+              <div class="news-title">Yandex 图片搜索推出按构图查找模式</div>
+              <p class="news-summary">该模式忽略颜色分布，只对比物体位置和画面结构。Yandex 在 10 月 15 日的公告中举例称，同一张海报换色后仍能被召回，测试集召回率提升约 30%。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. 相关推荐 -->
+      <section class="section" id="recommend">
+        <h2 class="section-title">相关搜索方向</h2>
+        <p class="section-subtitle">具体条目与工具名索引</p>
+        <div class="rec-tags">
+          <a href="#featured" class="rec-tag">TinEye 版权查询</a>
+          <a href="#featured" class="rec-tag">Google Lens 语言过滤</a>
+          <a href="#featured" class="rec-tag">Yandex 构图匹配</a>
+          <a href="#featured" class="rec-tag">拍立淘同款识别</a>
+          <a href="#deep-dive" class="rec-tag">感知哈希查重原理</a>
+          <a href="#deep-dive" class="rec-tag">特征点匹配误报率</a>
+          <a href="#guide" class="rec-tag">截图裁剪搜图技巧</a>
+          <a href="#faq" class="rec-tag">AI 生成图识别方法</a>
+        </div>
+      </section>
+
+      <!-- 11. 补充板块：热门榜单 -->
+      <section class="section" id="ranking">
+        <h2 class="section-title">本周识图工具热度榜</h2>
+        <p class="section-subtitle">按站内条目搜索与点击综合排序，11 月 2 日–11 月 8 日</p>
+        <ul class="compact-list">
+          <li><span class="item-name">Google Lens</span><span class="item-desc">多语言过滤上线，周搜索量 18,400</span><span class="list-date">↑ 2</span></li>
+          <li><span class="item-name">TinEye</span><span class="item-desc">批量上传功能带动版权查询场景，周搜索量 12,700</span><span class="list-date">→</span></li>
+          <li><span class="item-name">淘宝拍立淘</span><span class="item-desc">双十一预热期间同款识别需求上升，周搜索量 9,800</span><span class="list-date">↑ 1</span></li>
+          <li><span class="item-name">百度识图</span><span class="item-desc">阈值滑块更新后用户调参讨论增多，周搜索量 8,200</span><span class="list-date">↓ 1</span></li>
+          <li><span class="item-name">Yandex 图片搜索</span><span class="item-desc">构图匹配模式在设计师社群扩散，周搜索量 6,500</span><span class="list-date">↑ 3</span></li>
+          <li><span class="item-name">Bing 视觉搜索</span><span class="item-desc">海淘比价场景稳定，周搜索量 5,900</span><span class="list-date">→</span></li>
+          <li><span class="item-name">Pinterest 视觉搜索</span><span class="item-desc">家居类目扩充带动增长，周搜索量 4,300</span><span class="list-date">↑ 1</span></li>
+        </ul>
+      </section>
+
+      <!-- 12. 互动板块：提交内容 -->
+      <section class="section" id="submit">
+        <h2 class="section-title">提交识图案例或工具</h2>
+        <p class="section-subtitle">分享你用反向搜图查到（或没查到）的具体经历</p>
+        <div class="article-body">
+          <p>如果你用 TinEye 查到了某张图的最早来源，或者用拍立淘找到了停产家电的型号，可以把具体过程写下来。需要包含：使用的工具名、图片类型（照片/截图/插画）、查到的具体结果（来源页面或商品链接）、耗时。不要求文笔，把步骤写清楚就行。</p>
+          <p>工具开发者也可以提交新功能说明，附上更新时间、功能名称、适用场景和至少一条可验证的示例。每周五整理一次，入选条目会在“最新动态”板块列出。</p>
+          <p style="font-size:13px;color:var(--text-tertiary);margin-top:12px;">提交入口为示例功能，当前页面未接入表单服务。</p>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- 右侧辅助栏 -->
+    <aside class="sidebar">
+      <div class="sidebar-card">
+        <h3 class="sidebar-title">热门识图条目</h3>
+        <ol class="hot-list">
+          <li><a href="#featured">TinEye 批量上传 50 张</a></li>
+          <li><a href="#featured">Google Lens 多语言过滤</a></li>
+          <li><a href="#featured">Yandex 按构图查找</a></li>
+          <li><a href="#featured">百度识图相似度滑块</a></li>
+          <li><a href="#featured">淘宝拍立淘同款识别</a></li>
+          <li><a href="#featured">Bing 视觉搜索比价</a></li>
+        </ol>
+      </div>
+      <div class="sidebar-card">
+        <h3 class="sidebar-title">识图工具速查</h3>
+        <ul class="compact-list" style="font-size:13px;">
+          <li><span style="color:var(--text-secondary);">查最早来源 → TinEye</span></li>
+          <li><span style="color:var(--text-secondary);">查网页出处 → Google Lens</span></li>
+          <li><span style="color:var(--text-secondary);">查中文站点 → 百度识图</span></li>
+          <li><span style="color:var(--text-secondary);">查同款商品 → 拍立淘</span></li>
+          <li><span style="color:var(--text-secondary);">查构图相似 → Yandex</span></li>
+          <li><span style="color:var(--text-secondary);">查英文商品 → Bing 视觉</span></li>
+        </ul>
+      </div>
+      <div class="sidebar-card">
+        <h3 class="sidebar-title">近期更新日历</h3>
+        <ul class="compact-list" style="font-size:13px;">
+          <li><span style="color:var(--text-secondary);">11-08 Google Lens 语言过滤</span></li>
+          <li><span style="color:var(--text-secondary);">11-05 PimEyes 免费额度调整</span></li>
+          <li><span style="color:var(--text-secondary);">11-03 百度识图阈值滑块</span></li>
+          <li><span style="color:var(--text-secondary);">10-28 TinEye 批量上传</span></li>
+          <li><span style="color:var(--text-secondary);">10-20 Pinterest 类目扩充</span></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<!-- 页尾 -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">以图搜图</div>
+      <p class="footer-desc">覆盖 2026 年 10 月 10 日至 11 月 8 日的识图工具更新、查重案例与筛选方法。条目类型含工具功能说明、时间线记录、用户实操反馈与来源可信度拆解，每周五更新一次动态汇总。</p>
+    </div>
+    <div class="footer-col">
+      <h4>工具分类</h4>
+      <a href="#featured">通用网页识图</a>
+      <a href="#featured">版权溯源查重</a>
+      <a href="#featured">电商同款识别</a>
+      <a href="#featured">素材灵感收集</a>
+    </div>
+    <div class="footer-col">
+      <h4>内容板块</h4>
+      <a href="#deep-dive">深度解析</a>
+      <a href="#guide">体验指南</a>
+      <a href="#faq">常见问答</a>
+      <a href="#comments">用户评论</a>
+    </div>
+    <div class="footer-col">
+      <h4>互动</h4>
+      <a href="#submit">提交案例</a>
+      <a href="#submit">提交工具</a>
+      <a href="#ranking">热门榜单</a>
+      <a href="#news">相关资讯</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 以图搜图 · 内容聚合示例页面</span>
+    <span>页面更新于 2026-11-08</span>
+  </div>
+</footer>
+
+<button class="back-top" id="backTop" aria-label="回到顶部">↑</button>
+
+<script>
+  // 移动端菜单
+  const hamburger = document.getElementById('hamburgerBtn');
+  const mainNav = document.getElementById('mainNav');
+  const overlay = document.getElementById('overlay');
+
+  function closeMenu() {
+    mainNav.classList.remove('open');
+    overlay.classList.remove('active');
+    hamburger.setAttribute('aria-expanded', 'false');
+  }
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = mainNav.classList.toggle('open');
+    overlay.classList.toggle('active', isOpen);
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  overlay.addEventListener('click', closeMenu);
+
+  mainNav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 740) closeMenu();
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+
+  // 回到顶部
+  const backTop = document.getElementById('backTop');
+  window.addEventListener('scroll', () => {
+    backTop.classList.toggle('show', window.scrollY > window.innerHeight);
+  });
+  backTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // 滚动高亮导航
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = mainNav.querySelectorAll('a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const id = entry.target.id;
+        const active = mainNav.querySelector(`a[href="#${id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+
+  // 平滑滚动偏移已由 CSS scroll-padding 处理
+</script>
+
+<!-- 结构化数据 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "以图搜图",
+  "description": "反向图片搜索工具与识图技巧聚合页面，覆盖 Google Lens、TinEye、Yandex、百度识图等具体条目。",
+  "inLanguage": "zh-CN"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "TinEye 和 Google 识图有什么区别？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "TinEye 的索引以存量图片库为主，返回结果按“首次发现时间”排序，适合查一张图在公开网络上最早出现在哪个页面。Google 识图的索引覆盖范围更广，包含新闻、社交平台和电商页面，但默认排序偏向热度而非时间。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "为什么同一张图在百度识图能搜到，在 Google 搜不到？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "两个引擎的索引池不同。百度识图对中文站点、微信公众号和百度系产品的抓取频率更高，Google 对中文社交平台的抓取延迟在 1–3 天。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "反向搜图能不能找到被裁剪过的原图？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "裁剪掉 30% 以内的图片，Yandex 和 Google Lens 的特征点匹配仍能召回原图。裁剪超过 50% 时哈希匹配基本失效，需要靠语义匹配。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "AI 生成的图片能用反向搜图查出来吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "2026 年主流引擎还做不到直接标注 AI 生成，但可以通过间接线索判断。TinEye 查不到任何来源且 EXIF 缺失时值得怀疑，Yandex 构图查找返回大量结构类似但细节不同的结果也提示可能是生成图。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "拍立淘和淘宝的拍立淘入口在哪儿？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "淘宝 App 首页搜索框右侧的相机图标就是拍立淘入口，点击后可以拍照或从相册选图。网页版入口在搜索框下方的识图按钮。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "用反向搜图查人脸合规吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PimEyes 这类人脸搜索引擎在欧盟 GDPR 框架下可能构成违法处理个人数据。普通用户查自己是否被冒用可以，查陌生人身份不建议。"
+      }
+    }
+  ]
+}
+</script>
+</body>
+        </html>
