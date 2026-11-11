@@ -1,0 +1,1647 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>扣扣传媒系列 粉色情人 - 作品聚合与深度解析</title>
+  <meta name="description" content="扣扣传媒系列 粉色情人 聚合页面，收录粉色情人系列作品条目、更新动态、类型解析与观众评论。适合关注都市情感短剧与扣扣传媒作品的观众查阅。">
+  <meta name="keywords" content="扣扣传媒系列 粉色情人">
+  <style>
+    /* 全局色彩与变量 */
+    :root {
+      --pink-primary: #d94f8a;
+      --pink-light: #fce4ef;
+      --pink-dark: #a63062;
+      --pink-soft: #f9d8e8;
+      --bg: #fcf9fb;
+      --surface: #ffffff;
+      --text-primary: #1e1a1c;
+      --text-secondary: #5e4b55;
+      --text-tertiary: #8b7a83;
+      --border: #f0dfe8;
+      --shadow-default: 0 4px 12px rgba(166, 48, 98, 0.06);
+      --shadow-hover: 0 8px 24px rgba(166, 48, 98, 0.12);
+      --radius-card: 16px;
+      --radius-btn: 32px;
+      --radius-tag: 20px;
+      --radius-banner: 12px;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+      --sticky-offset: 112px; /* 公告条+页头高度预留 */
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: var(--sticky-offset);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    button, summary {
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* 吸顶公告条 */
+    .announcement-bar {
+      background: var(--pink-primary);
+      color: #fff;
+      font-size: 0.85rem;
+      padding: 0.5rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 1001;
+    }
+
+    .announcement-bar .brand-mini {
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .announcement-items {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .announcement-items span {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* 页头 */
+    .site-header {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      position: sticky;
+      top: 36px;
+      z-index: 1000;
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.5rem;
+    }
+
+    .header-inner {
+      max-width: 1360px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 68px;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--pink-dark);
+      white-space: nowrap;
+    }
+
+    .logo-svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    .main-nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.2rem;
+      font-size: 0.95rem;
+      flex-wrap: wrap;
+    }
+
+    .main-nav a {
+      padding: 0.3rem 0;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .main-nav a:hover, .main-nav a:focus-visible {
+      border-bottom-color: var(--pink-primary);
+      color: var(--pink-primary);
+      outline: none;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .header-actions a {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      padding: 0.3rem 0.8rem;
+      border-radius: var(--radius-btn);
+      background: var(--pink-light);
+      transition: background 0.2s;
+    }
+
+    .header-actions a:hover {
+      background: var(--pink-soft);
+      color: var(--pink-dark);
+    }
+
+    /* 主容器 */
+    .container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* 首屏 */
+    .hero {
+      background: linear-gradient(135deg, #fff5fa 0%, #fce4ef 100%);
+      border-radius: var(--radius-banner);
+      margin: 1.5rem 0 2rem;
+      padding: 2rem 2rem 2rem 2.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      flex: 1 1 360px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: var(--pink-dark);
+      line-height: 1.2;
+      margin-bottom: 0.8rem;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--pink-primary);
+      color: #fff;
+      padding: 0.7rem 1.8rem;
+      border-radius: var(--radius-btn);
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      transition: background 0.2s, transform 0.2s;
+      box-shadow: var(--shadow-default);
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: var(--pink-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--pink-dark);
+      border: 2px solid var(--pink-primary);
+      padding: 0.65rem 1.6rem;
+      border-radius: var(--radius-btn);
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background 0.2s;
+      display: inline-block;
+    }
+
+    .btn-outline:hover {
+      background: var(--pink-light);
+    }
+
+    .hero-visual {
+      flex: 1 1 280px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-visual svg {
+      width: 100%;
+      max-width: 360px;
+      height: auto;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-visual svg { animation: none; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* 整体布局：左侧单栏 + 右侧主内容 */
+    .layout-wrapper {
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start;
+      margin-bottom: 3rem;
+    }
+
+    .left-sidebar {
+      width: 220px;
+      flex-shrink: 0;
+      position: sticky;
+      top: var(--sticky-offset);
+      align-self: flex-start;
+    }
+
+    .sidebar-nav {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-default);
+      padding: 1.2rem 0.8rem;
+      border: 1px solid var(--border);
+    }
+
+    .sidebar-nav h3 {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-tertiary);
+      padding: 0 0.8rem 0.6rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0.6rem;
+    }
+
+    .sidebar-nav ul {
+      list-style: none;
+    }
+
+    .sidebar-nav li a {
+      display: block;
+      padding: 0.5rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .sidebar-nav li a:hover, .sidebar-nav li a.active {
+      background: var(--pink-light);
+      color: var(--pink-dark);
+      font-weight: 500;
+    }
+
+    .main-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* 通用区块 */
+    .section {
+      margin-bottom: 3rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.2rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .section-header h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+    }
+
+    .section-header .sub {
+      font-size: 0.9rem;
+      color: var(--text-tertiary);
+    }
+
+    /* 概览文本 */
+    .overview-text {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      padding: 1.5rem 2rem;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-default);
+      color: var(--text-secondary);
+      font-size: 1.02rem;
+      line-height: 1.8;
+    }
+
+    .overview-text p + p {
+      margin-top: 0.8rem;
+    }
+
+    /* 卡片网格 */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-default);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .card-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      background: var(--pink-light);
+    }
+
+    .card-body {
+      padding: 1rem 1.2rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+      color: var(--text-primary);
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin: 0.4rem 0 0.6rem;
+    }
+
+    .tag {
+      background: var(--pink-light);
+      color: var(--pink-dark);
+      font-size: 0.75rem;
+      padding: 0.15rem 0.7rem;
+      border-radius: var(--radius-tag);
+      font-weight: 500;
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
+      margin-top: 0.8rem;
+      border-top: 1px solid var(--border);
+      padding-top: 0.6rem;
+    }
+
+    /* 紧凑列表 */
+    .list-compact {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-default);
+      padding: 0.2rem 0;
+    }
+
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 0.9rem 1.4rem;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+
+    .list-item:last-child {
+      border-bottom: none;
+    }
+
+    .list-item:hover {
+      background: #fffafc;
+    }
+
+    .list-main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .list-title {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.15rem;
+      color: var(--text-primary);
+    }
+
+    .list-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .list-date {
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* 分类入口 */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+
+    .category-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 1.2rem 1rem;
+      text-align: center;
+      font-weight: 600;
+      color: var(--pink-dark);
+      box-shadow: var(--shadow-default);
+      transition: background 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .category-item:hover {
+      background: var(--pink-light);
+      transform: translateY(-2px);
+    }
+
+    .category-item .cat-icon {
+      font-size: 1.5rem;
+    }
+
+    .category-item .cat-label {
+      font-size: 0.9rem;
+    }
+
+    /* 深度解析 */
+    .deep-dive {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-default);
+      padding: 2rem 2.5rem;
+    }
+
+    .deep-dive h2 {
+      font-size: 1.7rem;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .deep-dive h3 {
+      font-size: 1.2rem;
+      margin: 1.5rem 0 0.6rem;
+      color: var(--pink-dark);
+      font-weight: 700;
+    }
+
+    .deep-dive p {
+      margin-bottom: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .deep-dive ul {
+      margin: 0.6rem 0 1rem 1.5rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .deep-dive li {
+      margin-bottom: 0.3rem;
+    }
+
+    .deep-dive blockquote {
+      background: var(--pink-light);
+      border-left: 4px solid var(--pink-primary);
+      padding: 1rem 1.5rem;
+      border-radius: 0 var(--radius-card) var(--radius-card) 0;
+      margin: 1rem 0;
+      color: var(--text-secondary);
+      font-style: normal;
+    }
+
+    /* 体验指南 */
+    .guide-steps {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .guide-step {
+      display: flex;
+      gap: 1.2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 1.2rem 1.5rem;
+      box-shadow: var(--shadow-default);
+      align-items: flex-start;
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      background: var(--pink-primary);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .step-content h4 {
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .step-content p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    /* FAQ */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .faq-item {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-default);
+      overflow: hidden;
+    }
+
+    .faq-item summary {
+      padding: 1rem 1.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      list-style: none;
+      transition: background 0.2s;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary:hover {
+      background: #fffafc;
+    }
+
+    .faq-item summary::after {
+      content: "+";
+      font-size: 1.3rem;
+      color: var(--pink-primary);
+      font-weight: 400;
+      transition: transform 0.2s;
+    }
+
+    .faq-item[open] summary::after {
+      content: "−";
+    }
+
+    .faq-answer {
+      padding: 0 1.5rem 1.2rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    /* 评论 */
+    .comment-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+    }
+
+    .comment-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 1rem 1.4rem;
+      box-shadow: var(--shadow-default);
+    }
+
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.3rem;
+    }
+
+    .comment-nick {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--pink-dark);
+    }
+
+    .comment-date {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+    }
+
+    .comment-text {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* 资讯 */
+    .news-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .news-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 1rem 1.5rem;
+      box-shadow: var(--shadow-default);
+    }
+
+    .news-title {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .news-meta {
+      font-size: 0.78rem;
+      color: var(--text-tertiary);
+      margin-bottom: 0.3rem;
+    }
+
+    .news-summary {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    /* 相关推荐标签 */
+    .tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .tag-cloud a {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.4rem 1.1rem;
+      border-radius: var(--radius-tag);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .tag-cloud a:hover {
+      background: var(--pink-light);
+      border-color: var(--pink-primary);
+      color: var(--pink-dark);
+    }
+
+    /* 榜单 */
+    .rank-list {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-default);
+      padding: 0.5rem 0;
+    }
+
+    .rank-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.7rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .rank-item:last-child {
+      border-bottom: none;
+    }
+
+    .rank-num {
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--pink-primary);
+      width: 24px;
+      text-align: center;
+    }
+
+    .rank-title {
+      flex: 1;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .rank-score {
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
+    }
+
+    /* 页脚 */
+    .site-footer {
+      background: #2d1f26;
+      color: #d9c8d1;
+      padding: 2.5rem 1.5rem 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .footer-inner {
+      max-width: 1360px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .footer-brand {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-desc {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: #b8a5b0;
+    }
+
+    .footer-col h4 {
+      font-size: 0.9rem;
+      color: #fff;
+      margin-bottom: 0.8rem;
+      font-weight: 600;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col li {
+      margin-bottom: 0.4rem;
+    }
+
+    .footer-col a {
+      font-size: 0.85rem;
+      color: #b8a5b0;
+      transition: color 0.2s;
+    }
+
+    .footer-col a:hover {
+      color: #fff;
+    }
+
+    .footer-bottom {
+      max-width: 1360px;
+      margin: 1.5rem auto 0;
+      padding-top: 1rem;
+      border-top: 1px solid #4a3742;
+      font-size: 0.8rem;
+      color: #8e7a85;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    /* 回到顶部 */
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--pink-primary);
+      color: #fff;
+      border: none;
+      box-shadow: var(--shadow-hover);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      z-index: 999;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background: var(--pink-dark);
+    }
+
+    /* 响应式 */
+    @media (max-width: 1024px) {
+      .layout-wrapper {
+        flex-direction: column;
+      }
+      .left-sidebar {
+        width: 100%;
+        position: static;
+      }
+      .sidebar-nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+      }
+      .sidebar-nav li a {
+        padding: 0.4rem 0.8rem;
+        background: var(--pink-light);
+        border-radius: var(--radius-tag);
+      }
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 740px) {
+      .hero h1 {
+        font-size: 1.9rem;
+      }
+      .header-inner {
+        justify-content: center;
+      }
+      .main-nav ul {
+        gap: 0.8rem;
+        font-size: 0.85rem;
+      }
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+      .announcement-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .site-header {
+        top: 56px;
+      }
+      :root {
+        --sticky-offset: 140px;
+      }
+    }
+  </style>
+<script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+  <!-- 吸顶公告条 -->
+  <div class="announcement-bar">
+    <span class="brand-mini">扣扣传媒系列 粉色情人 · 动态</span>
+    <div class="announcement-items">
+      <span>📅 2026-11-08 更新《粉色情人节》第3集</span>
+      <span>🔥 本周新增 12 条观众短评</span>
+    </div>
+  </div>
+
+  <!-- 吸顶页头 -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo-area">
+        <svg class="logo-svg" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="16" r="15" stroke="#d94f8a" stroke-width="2"/>
+          <path d="M10 12C10 10 12 8 16 8C20 8 22 10 22 12" stroke="#d94f8a" stroke-width="2" stroke-linecap="round"/>
+          <path d="M12 16C12 16 14 20 16 22C18 20 20 16 20 16" stroke="#d94f8a" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="16" cy="14" r="2" fill="#d94f8a"/>
+        </svg>
+        <span>扣扣传媒系列 粉色情人</span>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#overview">概览</a></li>
+          <li><a href="#featured">精选</a></li>
+          <li><a href="#updates">更新</a></li>
+          <li><a href="#categories">分类</a></li>
+          <li><a href="#deep-dive">解析</a></li>
+          <li><a href="#guide">指南</a></li>
+          <li><a href="#faq">问答</a></li>
+          <li><a href="#comments">评论</a></li>
+          <li><a href="#news">资讯</a></li>
+          <li><a href="#rank">榜单</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <a href="#submit">投稿</a>
+        <a href="#comments">互动</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- 首屏 -->
+    <section class="hero" id="hero">
+      <div class="hero-content">
+        <h1>扣扣传媒系列 粉色情人</h1>
+        <p class="hero-desc">聚合都市情感短剧《粉色情人》全系列条目、分集动态、演职员谈与观众短评。追踪扣扣传媒近期上线的角色番外、拍摄花絮和导演剪辑版信息。</p>
+        <div class="hero-actions">
+          <a href="#featured" class="btn-primary">浏览作品条目</a>
+          <a href="#deep-dive" class="btn-outline">阅读类型解析</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <svg viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="140" cy="140" r="120" fill="#f9d8e8" opacity="0.5"/>
+          <circle cx="140" cy="140" r="90" fill="#fce4ef" opacity="0.7"/>
+          <path d="M140 60C160 80 180 100 180 140C180 180 160 200 140 220C120 200 100 180 100 140C100 100 120 80 140 60Z" fill="#d94f8a" opacity="0.2"/>
+          <path d="M140 90C155 105 165 120 165 140C165 160 155 175 140 190C125 175 115 160 115 140C115 120 125 105 140 90Z" fill="#d94f8a" opacity="0.4"/>
+          <circle cx="140" cy="140" r="20" fill="#d94f8a"/>
+          <path d="M70 200 L100 170 M210 200 L180 170" stroke="#d94f8a" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 主布局 -->
+    <div class="layout-wrapper">
+      <!-- 左侧单栏导航 -->
+      <aside class="left-sidebar">
+        <nav class="sidebar-nav" aria-label="频道导航">
+          <h3>频道索引</h3>
+          <ul>
+            <li><a href="#overview" class="active">领域概览</a></li>
+            <li><a href="#featured">精选作品</a></li>
+            <li><a href="#updates">最新更新</a></li>
+            <li><a href="#categories">分类入口</a></li>
+            <li><a href="#deep-dive">深度解析</a></li>
+            <li><a href="#guide">体验指南</a></li>
+            <li><a href="#faq">常见问答</a></li>
+            <li><a href="#comments">用户评论</a></li>
+            <li><a href="#news">相关资讯</a></li>
+            <li><a href="#recommend">相关推荐</a></li>
+            <li><a href="#rank">热门榜单</a></li>
+            <li><a href="#submit">投稿交流</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- 主内容 -->
+      <main class="main-content">
+        <!-- 1. 主题领域概览 -->
+        <section class="section" id="overview">
+          <div class="section-header">
+            <h2>都市情感短剧的内容版图</h2>
+            <span class="sub">2026年11月更新</span>
+          </div>
+          <div class="overview-text">
+            <p>《粉色情人》系列是扣扣传媒在2025年底推出的都市情感短剧厂牌，主打每集8—12分钟的竖屏叙事。题材集中在合租关系、职场暧昧与旧情复燃三个母题，目前已上线三季共36集正片，外加6集角色番外和4条拍摄花絮。导演林奕舟在第三季媒体看片会上提到，新一季把外景比例从15%提高到40%，目的在让情感冲突发生在更开阔的公共空间。</p>
+            <p>从观众端来看，弹幕和短评里讨论最多的是女二号沈枝的支线——她与男主角在便利店仓库对峙的那场戏，单条cut在站内被转发超过2.3万次。与此并行的是“扣扣传媒宇宙”的联动：同一公司出品的《深夜便利店》和《她的第二封信》在彩蛋层面与本剧共享世界观，部分配角跨剧出现。类型标签上，平台编辑给该系列打了“甜虐”“都市”“短剧”“女性向”四个核心词，但实际观看体验并不均匀——第一季偏甜宠，第二季转折到悬疑情感，第三季目前播出的六集又回到日常向。</p>
+            <p>值得留意的具体条目还包括：番外《粉色情人节》定档2026年11月6日上线，目前更新至第3集；导演剪辑版的第12集增加了三分钟沈枝独白，平台评分从8.1升到8.6。对于新入坑的观众，按播出顺序从第一季看起，再跳到第二季第7集以后，是比较多人推荐的路径。</p>
+          </div>
+        </section>
+
+        <!-- 2. 精选内容推荐 -->
+        <section class="section" id="featured">
+          <div class="section-header">
+            <h2>本季值得点开的作品与番外</h2>
+            <span class="sub">按站内热度排序</span>
+          </div>
+          <div class="card-grid">
+            <div class="card">
+              <img class="card-img" src="https://picsum.photos/seed/pink-lover-s1/400/300" alt="粉色情人第一季主视觉：男女主角在便利店门口对视" width="400" height="300" loading="lazy">
+              <div class="card-body">
+                <div class="card-title">《粉色情人》第一季</div>
+                <div class="card-tags"><span class="tag">甜宠</span><span class="tag">合租</span><span class="tag">12集</span></div>
+                <p class="card-desc">程澄与陆屿从室友到恋人的完整线，第6集雨夜告白戏单集播放量破800万。节奏轻快，适合下饭。</p>
+                <div class="card-meta"><span>评分 8.4</span><span>更新至完结</span></div>
+              </div>
+            </div>
+            <div class="card">
+              <img class="card-img" src="https://picsum.photos/seed/pink-lover-s2/400/300" alt="粉色情人第二季剧照：沈枝在仓库货架前低头" width="400" height="300" loading="lazy">
+              <div class="card-body">
+                <div class="card-title">《粉色情人》第二季</div>
+                <div class="card-tags"><span class="tag">悬疑情感</span><span class="tag">职场</span><span class="tag">12集</span></div>
+                <p class="card-desc">新角色沈枝介入后，陆屿的旧案被翻出。第7集仓库对峙戏是全系列弹幕密度最高段落，信息量密集。</p>
+                <div class="card-meta"><span>评分 8.7</span><span>更新至完结</span></div>
+              </div>
+            </div>
+            <div class="card">
+              <img class="card-img" src="https://picsum.photos/seed/pink-valentine/400/300" alt="粉色情人节番外海报：粉色调情人节卡片风格" width="400" height="300" loading="lazy">
+              <div class="card-body">
+                <div class="card-title">《粉色情人节》番外</div>
+                <div class="card-tags"><span class="tag">番外</span><span class="tag">节日特辑</span><span class="tag">更新中</span></div>
+                <p class="card-desc">以情人节为时间节点的独立短篇，每集10分钟。11月6日上线后站内热度冲到短剧榜第4位，目前更至第3集。</p>
+                <div class="card-meta"><span>评分 7.9</span><span>11-08 更新第3集</span></div>
+              </div>
+            </div>
+            <div class="card">
+              <img class="card-img" src="https://picsum.photos/seed/pink-director-cut/400/300" alt="导演剪辑版第12集画面：沈枝独白场景" width="400" height="300" loading="lazy">
+              <div class="card-body">
+                <div class="card-title">导演剪辑版 第12集</div>
+                <div class="card-tags"><span class="tag">导演剪辑</span><span class="tag">加长版</span><span class="tag">独白</span></div>
+                <p class="card-desc">增加三分钟沈枝独白，把原版里模糊的动机补全。评分从8.1升到8.6，评论区争议集中在“该不该解释得太清楚”。</p>
+                <div class="card-meta"><span>评分 8.6</span><span>2026-11-02 上线</span></div>
+              </div>
+            </div>
+            <div class="card">
+              <img class="card-img" src="https://picsum.photos/seed/pink-bts/400/300" alt="粉色情人拍摄花絮：片场打光与监视器" width="400" height="300" loading="lazy">
+              <div class="card-body">
+                <div class="card-title">片场花絮：仓库对峙戏怎么拍</div>
+                <div class="card-tags"><span class="tag">花絮</span><span class="tag">幕后</span><span class="tag">导演谈</span></div>
+                <p class="card-desc">林奕舟在花絮里解释为什么用单机长镜头拍那场对峙：演员走位要一次成型，排练了17遍才实拍。</p>
+                <div class="card-meta"><span>时长 6分22秒</span><span>11-04 发布</span></div>
+              </div>
+            </div>
+            <div class="card">
+              <img class="card-img" src="https://picsum.photos/seed/pink-s3/400/300" alt="粉色情人第三季海报：户外草坪场景" width="400" height="300" loading="lazy">
+              <div class="card-body">
+                <div class="card-title">《粉色情人》第三季</div>
+                <div class="card-tags"><span class="tag">日常</span><span class="tag">外景</span><span class="tag">更新中</span></div>
+                <p class="card-desc">目前放出6集，外景比例提高后节奏变慢，但第4集菜市场偶遇戏被观众评价“终于又像第一季了”。</p>
+                <div class="card-meta"><span>评分 7.8</span><span>11-07 更新第6集</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. 最新更新 / 动态 -->
+        <section class="section" id="updates">
+          <div class="section-header">
+            <h2>近七日更新与动态</h2>
+            <span class="sub">截至 2026-11-08</span>
+          </div>
+          <div class="list-compact">
+            <div class="list-item">
+              <div class="list-main">
+                <div class="list-title">《粉色情人节》第3集上线</div>
+                <div class="list-desc">剧情推进到程澄收到匿名礼物，片尾彩蛋出现《深夜便利店》的店长背影，联动线索进一步明确。</div>
+              </div>
+              <span class="list-date">11-08</span>
+            </div>
+            <div class="list-item">
+              <div class="list-main">
+                <div class="list-title">第三季第6集“菜市场偶遇”更新</div>
+                <div class="list-desc">沈枝与陆屿在菜市场碰面，台词量明显减少，导演用环境音铺满整场。站内单集评分7.9。</div>
+              </div>
+              <span class="list-date">11-07</span>
+            </div>
+            <div class="list-item">
+              <div class="list-main">
+                <div class="list-title">导演剪辑版第12集弹幕破10万条</div>
+                <div class="list-desc">新增独白段落引发讨论，弹幕高频词从“心疼”转向“解释过度”，观众对动机是否该明示产生分歧。</div>
+              </div>
+              <span class="list-date">11-06</span>
+            </div>
+            <div class="list-item">
+              <div class="list-main">
+                <div class="list-title">《粉色情人节》定档海报发布</div>
+                <div class="list-desc">海报标注“11月6日起每周三更新”，同时放出沈枝新造型，评论区追问支线是否并入正片。</div>
+              </div>
+              <span class="list-date">11-05</span>
+            </div>
+            <div class="list-item">
+              <div class="list-main">
+                <div class="list-title">仓库对峙戏花絮上线</div>
+                <div class="list-desc">花絮显示这场戏排练17遍，演员在实拍前要求清场。播放量两天内达到46万。</div>
+              </div>
+              <span class="list-date">11-04</span>
+            </div>
+            <div class="list-item">
+              <div class="list-main">
+                <div class="list-title">第二季第7集重登短剧热度榜第9位</div>
+                <div class="list-desc">因导演剪辑版带动回看，该集单日播放量回升至32万，弹幕里多了不少“二刷才看懂”的留言。</div>
+              </div>
+              <span class="list-date">11-02</span>
+            </div>
+            <div class="list-item">
+              <div class="list-main">
+                <div class="list-title">林奕舟媒体看片会发言被整理成文字版</div>
+                <div class="list-desc">提到第三季外景比例从15%提高到40%，并解释这是为了让情感冲突发生在“有旁人的地方”。</div>
+              </div>
+              <span class="list-date">10-30</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. 分类入口 -->
+        <section class="section" id="categories">
+          <div class="section-header">
+            <h2>按题材与形式找条目</h2>
+            <span class="sub">8 个分类</span>
+          </div>
+          <div class="category-grid">
+            <a href="#featured" class="category-item"><span class="cat-icon">💕</span><span class="cat-label">甜宠合租</span></a>
+            <a href="#featured" class="category-item"><span class="cat-icon">🔍</span><span class="cat-label">悬疑情感</span></a>
+            <a href="#featured" class="category-item"><span class="cat-icon">💼</span><span class="cat-label">职场暧昧</span></a>
+            <a href="#featured" class="category-item"><span class="cat-icon">🎬</span><span class="cat-label">导演剪辑</span></a>
+            <a href="#featured" class="category-item"><span class="cat-icon">🎁</span><span class="cat-label">节日番外</span></a>
+            <a href="#featured" class="category-item"><span class="cat-icon">📸</span><span class="cat-label">幕后花絮</span></a>
+            <a href="#featured" class="category-item"><span class="cat-icon">🔗</span><span class="cat-label">扣扣宇宙联动</span></a>
+            <a href="#featured" class="category-item"><span class="cat-icon">📝</span><span class="cat-label">角色支线</span></a>
+          </div>
+        </section>
+
+        <!-- 5. 深度解析正文 -->
+        <section class="section" id="deep-dive">
+          <div class="deep-dive">
+            <h2>深度解析：粉色情人系列的类型位移与观看判断</h2>
+            <p>三季正片加番外，放在一起看不像同一部剧。第一季是标准甜宠节奏，第二季突然把悬疑线拉到台前，第三季又退回日常。这种位移不是制作失误，背后有平台排播和导演个人偏好的拉扯。以下从几个具体维度拆开。</p>
+
+            <h3>第一季和第二季之间发生了什么</h3>
+            <p>第一季2025年12月上线，12集，单集9分钟，主打合租甜宠。第6集雨夜告白在站内拿到800万播放，平台随即在2026年1月官宣第二季。第二季2026年3月上线时，第一集开场三分钟就抛出陆屿的旧案线索，弹幕里出现大量“这是同一部剧？”的疑问。从已公开信息看，第二季剧本在2025年10月已完成初稿，但平台在12月看片后要求增加悬疑元素，编剧组在2026年1月进行了一次为期两周的集中修改。</p>
+            <p>一个可以核对的时间线：2025年10月剧本初稿 → 2025年12月第一季上线 → 2026年1月平台修改意见 → 2026年3月第二季播出。修改幅度体现在第7集仓库对峙戏从原剧本的2页扩展到6页，新增沈枝作为关键证人。这条改动让第二季评分从第一季的8.4升到8.7，但也导致部分第一季观众在短评里写“甜度不够”。</p>
+
+            <h3>导演剪辑版加的三分钟改变了什么</h3>
+            <p>导演剪辑版第12集新增沈枝独白，时长三分钟。原版里沈枝为什么突然出现在仓库，只有一句“我来找东西”带过。加长版里，她对着货架说了一段关于小时候在父亲仓库里捉迷藏的回忆，把动机从“巧合”调整为“主动介入”。</p>
+            <p>评分变化：原版第12集站内评分8.1，导演剪辑版上线三天后升到8.6。短评区出现两种声音——一类认为“终于把坑填了”，另一类认为“不解释反而更好，现在太直白”。支持解释的评论多引用第7集台词“人不会无缘无故站在同一个地方”，认为独白与前文呼应；反对的评论则指出，独白段落里出现了原版没有的第三个时间线（1998年仓库），与第二季整体时间设定存在轻微冲突。</p>
+
+            <h3>第三季外景比例40%带来的节奏变化</h3>
+            <p>林奕舟在10月30日媒体看片会上说，第三季外景比例从15%提高到40%。实际播出的前六集里，菜市场、公交站、河边步道各出现两次以上。观众反馈分化明显：站内投票“你更喜欢室内还是室外场景”截至11月8日有1.2万人参与，选室内的占54%。</p>
+            <p>节奏上，室内戏平均镜头长度4.2秒，室外戏拉到6.8秒，单集信息密度下降。第4集菜市场偶遇戏的台词量只有第二季同长度集数的六成。一个可对照的细节：第二季第7集仓库对峙戏全长7分12秒，共148句台词；第三季第4集菜市场戏全长6分50秒，台词只有62句。观众用“终于又像第一季了”形容第4集，但第4集其实比第一季任何一集都更依赖环境音和留白。</p>
+
+            <h3>判断一个条目值不值得点开的三条依据</h3>
+            <ul>
+              <li><strong>看编剧署名：</strong>第一季编剧为周醒，第二季第7—12集由周醒与新人编剧宋迟联合署名，第三季目前六集全部为宋迟单独署名。宋迟在第二季的联合署名集数里负责的是悬疑线，日常戏比例偏低。</li>
+              <li><strong>看平台标注的“本集看点”关键词：</strong>标注“对峙”“证据”“旧案”的集数，信息密度普遍高于标注“日常”“心动”的集数，但情感浓度不一定低——第4集菜市场戏标注“日常”，弹幕里“看哭了”出现频次却高于第二季第7集。</li>
+              <li><strong>看片尾是否有联动彩蛋：</strong>有彩蛋的集数通常与扣扣传媒宇宙其他作品相关，适合追世界观的观众；无彩蛋的集数更独立，适合单集下饭。</li>
+            </ul>
+            <blockquote>可核对的判断拆解：有人说“第二季比第三季传播快”。速度来自三个环节——平台首页推荐位（第二季上线首周占据短剧频道banner位48小时，第三季只有24小时）、抖音二创剪辑数量（第二季相关二创在三天内破200条，第三季六集播出后共67条）、弹幕密度（第二季第7集单集弹幕3.4万条，第三季最高单集1.1万条）。三个环节里前两个与内容质量无关，属于排播资源差异。</blockquote>
+          </div>
+        </section>
+
+        <!-- 6. 体验指南 -->
+        <section class="section" id="guide">
+          <div class="section-header">
+            <h2>从哪一集开始看：观看顺序与判断</h2>
+            <span class="sub">按观看目的分路径</span>
+          </div>
+          <div class="guide-steps">
+            <div class="guide-step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <h4>先确认自己想看甜宠还是悬疑</h4>
+                <p>时间有限的话，第一季第1—6集是甜宠浓度最高的段落，单集9分钟，适合通勤看。如果想看悬疑线，直接从第二季第7集切入，前六集可以只看每集最后30秒的彩蛋。</p>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <h4>比较条目时看“编剧署名”和“集长”</h4>
+                <p>同系列里，周醒署名的集数日常戏密度高，宋迟署名的集数悬疑推进快。集长超过11分钟的集数通常包含额外支线，信息量更大，适合不赶时间的时候看。</p>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <h4>番外和花絮按需补</h4>
+                <p>《粉色情人节》番外目前更新三集，每集独立成篇，不影响正片主线。花絮适合看完正片后回看，仓库对峙戏花絮里导演解释的“单机长镜头”逻辑，能帮观众理解为什么那场戏的紧张感来自走位而非台词。</p>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <h4>判断一个条目值不值得投入时间，看三条</h4>
+                <p>一看短评区是否出现具体场景讨论（而不是只有“好看”），二看单集评分是否高于该季平均分0.3以上，三看弹幕高潮时间点是否集中在中后段——集中在中后段通常说明叙事有铺垫，前段高能后段疲软的集数需要谨慎。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. FAQ -->
+        <section class="section" id="faq">
+          <div class="section-header">
+            <h2>关于粉色情人系列的常见问题</h2>
+            <span class="sub">6 个问答</span>
+          </div>
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary>《粉色情人》第二季第7集仓库对峙戏为什么被讨论那么多？</summary>
+              <div class="faq-answer">那场戏从原剧本的2页扩展到6页，增加了沈枝作为证人的完整动机线。单集弹幕3.4万条，高频词是“证据”和“时间线”。讨论集中在沈枝的证词是否可信——她的说法与第一季第9集陆屿的自述存在一处时间矛盾。</div>
+            </details>
+            <details class="faq-item">
+              <summary>导演剪辑版第12集加的独白和原版冲突吗？</summary>
+              <div class="faq-answer">独白补充了沈枝1998年在父亲仓库的经历，这条时间线在第二季正片里没有出现过。原版第12集沈枝只说“我来找东西”，加长版给了具体理由。冲突点在于1998年这个时间是否与第一季第3集陆屿的年龄设定匹配——按第一季台词推算，陆屿1998年应该只有4岁，而加长版里仓库场景暗示他更大一些。</div>
+            </details>
+            <details class="faq-item">
+              <summary>第三季外景多了，为什么有人觉得节奏变慢了？</summary>
+              <div class="faq-answer">室外戏平均镜头长度6.8秒，室内戏4.2秒，单集信息密度下降。第4集菜市场戏台词62句，第二季第7集是148句。台词少了，环境音和留白多了，喜欢第一季快节奏的观众会觉得拖。</div>
+            </details>
+            <details class="faq-item">
+              <summary>《粉色情人节》番外和正片有剧情关联吗？</summary>
+              <div class="faq-answer">目前三集番外各有独立主题，第2集片尾出现《深夜便利店》店长的背影，属于扣扣传媒宇宙的联动彩蛋，不影响正片主线理解。第3集片尾字幕里列出了正片第三季的播出时间表。</div>
+            </details>
+            <details class="faq-item">
+              <summary>第一季和第二季之间隔了多久？</summary>
+              <div class="faq-answer">第一季2025年12月上线，第二季2026年3月上线，间隔约三个月。中间平台在2026年1月官宣续订，并给出两周修改窗口。编剧组在这两周里集中调整了第二季前六集的悬疑线索密度。</div>
+            </details>
+            <details class="faq-item">
+              <summary>没看过第一季，能直接从第二季开始看吗？</summary>
+              <div class="faq-answer">可以，但第二季第1集开场三分钟就抛出陆屿的旧案，没看过第一季会对“旧案”的具体所指缺少背景。建议至少补第一季第9—12集，这四集里包含旧案的起因和陆屿与沈枝的第一次碰面。</div>
+            </details>
+          </div>
+        </section>
+
+        <!-- 8. 用户评论 -->
+        <section class="section" id="comments">
+          <div class="section-header">
+            <h2>观众短评与追剧笔记</h2>
+            <span class="sub">19 条评论</span>
+          </div>
+          <div class="comment-list">
+            <div class="comment-item">
+              <div class="comment-header"><span class="comment-nick">桃桃乌龙</span><span class="comment-date">11-08</span></div>
+              <p class="comment-text">《粉色情人节》第三集那个匿名礼物拆开是便利店积分卡，我立刻倒回去看第二季第3集，果然有同款。这伏笔埋了快八个月。</p>
+            </div>
+            <div class="comment-item">
+              <div class="comment-header"><span class="comment-nick">老K不加班</span><span class="comment-date">11-07</span></div>
+              <p class="comment-text">第三季第6集菜市场那场戏，台词少到我以为网卡了。后来戴耳机重看，环境音里有磨刀声和小孩哭，导演是真敢。</p>
+            </div>
+            <div class="comment-item">
+              <div class="comment-header"><span class="comment-nick">沈枝的证词</span><span class="comment-date">11-07</span></div>
+              <p class="comment-text">导演剪辑版加的独白把沈枝1998年的年龄搞乱了。按第一季第3集陆屿说“我四岁那年”，1998年他应该只有四岁，但加长版里仓库对峙的体感像十岁。前后对不上。</p>
+            </div>
+            <div class="comment-item">
+              <div class="comment-header"><span class="comment-nick">一颗奶糖</span><span class="comment-date">11-06</span></div>
+              <p class="comment-text">单纯觉得第二季第7集仓库戏打光好看，冷白灯管配粉色货架，截图当壁纸了。剧情什么的没太在意。</p>
+            </div>
+            <div class="comment-item">
+              <div class="comment-header"><span class="comment-nick">林导的镜头</span><span class="comment-date">11-06</span></div>
+              <p class="comment-text">花絮里说排练17遍我是信的。单机长镜头拍对峙，两个演员走位错半步就得重来，17遍算少的。</p>
+            </div>
+            <div class="comment-item">
+              <div class="comment-header"><span class="comment-nick">下饭专用</span><span class="comment-date">11-05</span></div>
+              <p class="comment-text">第一季看到第四集弃了，甜得有点齁。后来被朋友按头看第二季第7集，垂直入坑。现在第三季追到第六集，反而觉得日常戏挺好，可能我变了。</p>
+            </div>
+            <div class="comment-item">
+              <div class="comment-header"><span class="comment-nick">宋迟编剧粉</span><span class="comment-date">11-05</span></div>
+              <p class="comment-text">第三季六集全是宋迟单独署名，能看出来她写悬疑比写日常顺手。第2集那个快递单号特写，暂停看了下跟第二季第11集是同一串数字。</p>
+            </div>
+            <div class="comment-item">
+              <div class="comment-header"><span class="comment-nick">不看彩蛋会死</span><span class="comment-date">11-04</span></div>
+              <p class="comment-text">每集片尾都等彩蛋。《粉色情人节》第3集彩蛋里《深夜便利店》店长的背影，跟《她的第二封信》第5集那个背影是同一件外套。扣扣宇宙实锤了。</p>
+            </div>
+            <div class="comment-item">
+              <div class="comment-header"><span class="comment-nick">今天也在等更新</span><span class="comment-date">11-04</span></div>
+              <p class="comment-text">第三季更新太慢了，每周三一集，等得我都把第二季又刷了一遍。第7集台词我现在能背。</p>
+            </div>
+            <div class="comment-item">
+              <div class="comment-header"><span class="comment-nick">客观追剧人</span><span class="comment-date">11-03</span></div>
+              <p class="comment-text">导演剪辑版评分涨到8.6有点虚高。独白把动机讲太透，留白没了。原版8.1其实更合适。个人看法。</p>
+            </div>
+            <div class="comment-item">
+              <div class="comment-header"><span class="comment-nick">便利店积分卡</span><span class="comment-date">11-03</span></div>
+              <p class="comment-text">《粉色情人节》里那个积分卡道具，跟《深夜便利店》里出现过的是同一种颜色。这种小道具的统一比台词联动用心多了。</p>
+            </div>
+            <div class="comment-item">
+              <div class="comment-header"><span class="comment-nick">路过的剧评人</span><span class="comment-date">11-02</span></div>
+              <p class="comment-text">第二季悬疑线改得好不好见仁见智，但平台用banner位推了48小时，这个资源给谁谁数据都好。第三季只有24小时，比较传播速度没意义。</p>
+            </div>
+            <div class="comment-item">
+              <div class="comment-header"><span class="comment-nick">只看脸</span><span class="comment-date">11-02</span></div>
+              <p class="comment-text">陆屿第三季换发型了？还是喜欢第二季那个偏分。剧情我没意见，发型有意见。</p>
+            </div>
+            <div class="comment-item">
+              <div class="comment-header"><span class="comment-nick">菜市场偶遇</span><span class="comment-date">11-01</span></div>
+              <p class="comment-text">第4集菜市场戏我拉片看了三遍。磨刀声、小孩哭、远处电动车报警，三条环境音叠在沈枝说“好久不见”那句上。导演是真会。</p>
+            </div>
+            <div class="comment-item">
+              <div class="comment-header"><span class="comment-nick">周醒vs宋迟</span><span class="comment-date">10-31</span></div>
+              <p class="comment-text">周醒写日常戏的节奏感确实好，第一季第6集雨夜告白，台词密但有呼吸感。宋迟写悬疑是一把好手，写日常就有点平。第三季第1集差点看睡着。</p>
+            </div>
+            <div class="comment-item">
+              <div class="comment-header"><span class="comment-nick">弹幕计数员</span><span class="comment-date">10-31</span></div>
+              <p class="comment-text">第二季第7集弹幕3.4万条，第三季最高单集1.1万。这个差距跟内容质量关系不大，第二季有banner位，第三季没有。</p>
+            </div>
+            <div class="comment-item">
+              <div class="comment-header"><span class="comment-nick">粉色控</span><span class="comment-date">10-30</span></div>
+              <p class="comment-text">这部剧的调色是真好看，每一帧都能截。剧情嘛，第二季第7集之后有点散，但画面撑着我看到了第三季。</p>
+            </div>
+            <div class="comment-item">
+              <div class="comment-header"><span class="comment-nick">追剧不如追花絮</span><span class="comment-date">10-30</span></div>
+              <p class="comment-text">仓库对峙戏花絮比正片还好看。导演喊“再来一遍”的声音都哑了，演员走位走到第17遍时自己笑了。这种幕后比成片有意思。</p>
+            </div>
+            <div class="comment-item">
+              <div class="comment-header"><span class="comment-nick">随便看看</span><span class="comment-date">10-29</span></div>
+              <p class="comment-text">朋友推荐看的，说第二季第7集封神。看完觉得还行吧，可能期待值被拉太高了。沈枝那个角色倒是挺有意思的。</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 9. 相关资讯 -->
+        <section class="section" id="news">
+          <div class="section-header">
+            <h2>系列相关资讯与排播消息</h2>
+            <span class="sub">6 条</span>
+          </div>
+          <div class="news-list">
+            <div class="news-item">
+              <div class="news-title">《粉色情人节》番外第3集上线，片尾彩蛋指向正片第三季时间表</div>
+              <div class="news-meta">2026-11-08 · 扣扣传媒短剧频道</div>
+              <p class="news-summary">第3集片尾字幕滚动后出现正片第三季第7—9集的播出日期，分别为11月14日、21日、28日。同时段平台短剧热度榜上，该番外位列第4。</p>
+            </div>
+            <div class="news-item">
+              <div class="news-title">第三季第6集单集评分7.9，弹幕高频词“环境音”首次进入前三</div>
+              <div class="news-meta">2026-11-07 · 站内数据</div>
+              <p class="news-summary">该集台词量62句，为全系列单集最低。弹幕高频词依次为“菜市场”“沈枝”“环境音”，其中“环境音”是首次进入单集弹幕前三。</p>
+            </div>
+            <div class="news-item">
+              <div class="news-title">导演剪辑版第12集上线三天评分升至8.6，短评区出现时间线考据帖</div>
+              <div class="news-meta">2026-11-05 · 编辑整理</div>
+              <p class="news-summary">考据帖指出加长版独白中1998年仓库场景与第一季第3集陆屿年龄设定存在矛盾，该帖在站内被收藏2100余次，跟帖里分为“解释派”和“留白派”。</p>
+            </div>
+            <div class="news-item">
+              <div class="news-title">《粉色情人节》定档海报发布：11月6日起每周三更新</div>
+              <div class="news-meta">2026-11-04 · 扣扣传媒官方账号</div>
+              <p class="news-summary">海报右下角标注“共8集”，比正片常规12集少4集。官方账号在评论区回复“番外篇幅独立”，未说明是否会并入正片主线。</p>
+            </div>
+            <div class="news-item">
+              <div class="news-title">仓库对峙戏花絮播放量破46万，导演谈单机长镜头排练17遍</div>
+              <div class="news-meta">2026-11-03 · 幕后频道</div>
+              <p class="news-summary">花絮中林奕舟提到实拍前清场，只留摄影和录音。该条花絮完播率78%，高于幕后频道平均完播率52%的数据。</p>
+            </div>
+            <div class="news-item">
+              <div class="news-title">第二季第7集因剪辑版带动回看，单日播放量回升至32万</div>
+              <div class="news-meta">2026-11-01 · 站内热度榜</div>
+              <p class="news-summary">该集在短剧热度榜重新进入前10，排名第9。弹幕中“二刷”出现频次较前日增长4倍，新增弹幕集中在沈枝出场后的第4分钟。</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 10. 相关推荐 -->
+        <section class="section" id="recommend">
+          <div class="section-header">
+            <h2>按关键词找条目</h2>
+            <span class="sub">7 个方向</span>
+          </div>
+          <div class="tag-cloud">
+            <a href="#featured">沈枝支线</a>
+            <a href="#featured">仓库对峙戏</a>
+            <a href="#featured">粉色情人节番外</a>
+            <a href="#featured">导演剪辑版独白</a>
+            <a href="#featured">菜市场偶遇</a>
+            <a href="#featured">扣扣宇宙联动彩蛋</a>
+            <a href="#featured">周醒编剧集数</a>
+          </div>
+        </section>
+
+        <!-- 11. 补充板块：热门榜单 + 投稿交流 -->
+        <section class="section" id="rank">
+          <div class="section-header">
+            <h2>站内短剧热度榜（粉色情人相关）</h2>
+            <span class="sub">截至 2026-11-08 12:00</span>
+          </div>
+          <div class="rank-list">
+            <div class="rank-item"><span class="rank-num">1</span><span class="rank-title">粉色情人节 第3集</span><span class="rank-score">热度 9821</span></div>
+            <div class="rank-item"><span class="rank-num">2</span><span class="rank-title">粉色情人 第二季 第7集</span><span class="rank-score">热度 8740</span></div>
+            <div class="rank-item"><span class="rank-num">3</span><span class="rank-title">粉色情人 导演剪辑版 第12集</span><span class="rank-score">热度 8215</span></div>
+            <div class="rank-item"><span class="rank-num">4</span><span class="rank-title">粉色情人节 第2集</span><span class="rank-score">热度 7902</span></div>
+            <div class="rank-item"><span class="rank-num">5</span><span class="rank-title">粉色情人 第三季 第6集</span><span class="rank-score">热度 7568</span></div>
+            <div class="rank-item"><span class="rank-num">6</span><span class="rank-title">粉色情人 第一季 第6集</span><span class="rank-score">热度 7033</span></div>
+          </div>
+        </section>
+
+        <section class="section" id="submit">
+          <div class="section-header">
+            <h2>投稿与互动</h2>
+            <span class="sub">分享你的追剧笔记</span>
+          </div>
+          <div class="overview-text" style="background: var(--pink-light); border-color: var(--pink-soft);">
+            <p>如果你写了对某集的拉片分析、发现了跨剧彩蛋，或者想投稿角色短评，可以在这里提交。站内每周会挑选三篇观众笔记放在精选位置。上一周入选的是“仓库对峙戏环境音拆解”和“沈枝证词的时间线矛盾”。</p>
+            <p style="margin-top: 1rem;"><a href="#comments" class="btn-primary" style="display: inline-block;">写一条短评</a> <a href="#featured" class="btn-outline" style="display: inline-block; margin-left: 0.8rem;">查看入选笔记</a></p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- 页脚 -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">扣扣传媒系列 粉色情人</div>
+        <p class="footer-desc">覆盖2025年12月至2026年11月播出的三季正片、导演剪辑版及番外内容。条目类型包括正片分集、角色番外、幕后花絮与跨剧彩蛋。更新节奏跟随平台排播，每周三、周五各一次。</p>
+      </div>
+      <div class="footer-col">
+        <h4>内容</h4>
+        <ul>
+          <li><a href="#featured">精选作品</a></li>
+          <li><a href="#updates">最新更新</a></li>
+          <li><a href="#deep-dive">深度解析</a></li>
+          <li><a href="#rank">热门榜单</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>互动</h4>
+        <ul>
+          <li><a href="#comments">用户评论</a></li>
+          <li><a href="#submit">投稿交流</a></li>
+          <li><a href="#faq">常见问答</a></li>
+          <li><a href="#guide">体验指南</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>关于</h4>
+        <ul>
+          <li><a href="#overview">领域概览</a></li>
+          <li><a href="#news">相关资讯</a></li>
+          <li><a href="#categories">分类入口</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>页面内容为示例条目，用于展示作品聚合形态。版权归属扣扣传媒及相关权利人。</span>
+      <span>更新时间：2026-11-08 · 对应公告条与最新更新板块</span>
+    </div>
+  </footer>
+
+  <!-- 回到顶部 -->
+  <button class="back-to-top" id="backToTop" aria-label="回到顶部">↑</button>
+
+  <script>
+    (function() {
+      // 回到顶部
+      var backBtn = document.getElementById('backToTop');
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 500) {
+          backBtn.classList.add('visible');
+        } else {
+          backBtn.classList.remove('visible');
+        }
+      });
+      backBtn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // 侧栏导航高亮
+      var sections = document.querySelectorAll('section[id]');
+      var navLinks = document.querySelectorAll('.sidebar-nav a');
+      function highlightNav() {
+        var scrollPos = window.scrollY + 140;
+        sections.forEach(function(section) {
+          var top = section.offsetTop;
+          var bottom = top + section.offsetHeight;
+          var id = section.getAttribute('id');
+          if (scrollPos >= top && scrollPos < bottom) {
+            navLinks.forEach(function(link) {
+              link.classList.remove('active');
+              if (link.getAttribute('href') === '#' + id) {
+                link.classList.add('active');
+              }
+            });
+          }
+        });
+      }
+      window.addEventListener('scroll', highlightNav);
+      window.addEventListener('load', highlightNav);
+
+      // 移动端点击导航后自动收起（此处为单栏左侧导航，点击已跳转，无需额外收起逻辑）
+    })();
+  </script>
+
+  <!-- 结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "扣扣传媒系列 粉色情人",
+    "description": "聚合都市情感短剧《粉色情人》全系列条目、分集动态与观众评论。",
+    "inLanguage": "zh-CN"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "《粉色情人》第二季第7集仓库对峙戏为什么被讨论那么多？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "那场戏从原剧本的2页扩展到6页，增加了沈枝作为证人的完整动机线。单集弹幕3.4万条，高频词是“证据”和“时间线”。讨论集中在沈枝的证词是否可信——她的说法与第一季第9集陆屿的自述存在一处时间矛盾。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "导演剪辑版第12集加的独白和原版冲突吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "独白补充了沈枝1998年在父亲仓库的经历，这条时间线在第二季正片里没有出现过。原版第12集沈枝只说“我来找东西”，加长版给了具体理由。冲突点在于1998年这个时间是否与第一季第3集陆屿的年龄设定匹配。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "第三季外景多了，为什么有人觉得节奏变慢了？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "室外戏平均镜头长度6.8秒，室内戏4.2秒，单集信息密度下降。第4集菜市场戏台词62句，第二季第7集是148句。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "《粉色情人节》番外和正片有剧情关联吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "目前三集番外各有独立主题，第2集片尾出现《深夜便利店》店长的背影，属于扣扣传媒宇宙的联动彩蛋。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "第一季和第二季之间隔了多久？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "第一季2025年12月上线，第二季2026年3月上线，间隔约三个月。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "没看过第一季，能直接从第二季开始看吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "可以，但第二季第1集开场三分钟就抛出陆屿的旧案，建议至少补第一季第9—12集。"
+        }
+      }
+    ]
+  }
+  </script>
+</body>
+  </html>
